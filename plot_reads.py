@@ -79,7 +79,7 @@ if __name__ == '__main__':
     else:
         f = open(sys.argv[1], 'r')
         nm = sys.argv[1]
-
+    
     # skip first two non-data lines.
     (fig, ax) = show_access_pattern(f,nm)
-    pl.savefig('access_pattern_%s.png' % nm)
+    pl.savefig('%s.access_pattern.png' % nm)
