@@ -25,10 +25,12 @@ Tracing kprobe vfs_read. Ctrl-C to end.
   takes trace_reads.bash output and plots the reads:
   
 usage:
+
 `sudo ./trace_reads.bash /my/file > test.tmp`
 
-meanwhile, a process accesses the file:
-`python test_reads.py /my/file 
+after a process accesses reads multiple locations of the file:
+
+`python test_reads.py /my/file`
 
 we can use plot_reads.py to plot the collected traces:
 ```
