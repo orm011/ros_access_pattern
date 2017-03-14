@@ -15,6 +15,26 @@ vs
 $sudo ./trace_reads.bash ./trace_reads.bash  # and concurrently: sed 's/test/foo/g' trace_reads.bash
 vfs_read
 Tracing kprobe vfs_read. Ctrl-C to end.
-             sed-757   [008] d... 80128.962194: vfs_read: (vfs_read+0x0/0x140) inum=0x760f7e size_requested=0x1000 *offset=0x0*
-             sed-757   [008] d... 80128.962511: vfs_read: (vfs_read+0x0/0x140) inum=0x760f7e size_requested=0x1000 *offset=0x7aa*
+             sed-757   [008] d... 80128.962194: vfs_read: (vfs_read+0x0/0x140) ...
+                  inum=0x760f7e size_requested=0x1000 **offset=0x0**
+             sed-757   [008] d... 80128.962511: vfs_read: (vfs_read+0x0/0x140) ...
+                  inum=0x760f7e size_requested=0x1000 **offset=0x7aa**
 ```
+plot_reads.py: takes trace_reads.bash output and plots the reads:
+usage:
+`sudo ./trace_reads.bash /my/file > test.tmp`
+and meanwhile:
+`python test_reads.py /my/file # test_reads.py available in repo` 
+
+later:
+```
+$ ./plot_reads.py test.tmp 
+skipped lines: 4
+total read() calls: 106
+duration (s): 19.0
+total bytes requested (MB): 33417
+min_offset (B): 0
+max_offset (MB): 30170
+$ eog access_pattern_test.tmp.png
+```
+![access_pattern_test.tmp.png](https://raw.githubusercontent.com/orm011/tools/master/access_pattern_test.tmp.png "")
