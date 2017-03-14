@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 #
-usage="$(basename "$0") [-h] file -- kprobe to record read() offsets and read lengths to a specific file. eg, to understand application specific access patterns."
+usage="$(basename "$0") [-h] file -- kprobe to record read() offsets and read lengths to a specific file.\ 
+    eg, to understand file access patterns from an applications perspective."
 while getopts ':h' option; do
     case "$option" in
         h) echo "$usage"
