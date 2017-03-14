@@ -1,7 +1,8 @@
 # tools
 assorted tools/useful snippets
 
-trace_reads.bash: like `strace -e trace=read`, but it also shows you the (normally implicit) file offset being read at.
+# trace_reads.bash: 
+  like `strace -e trace=read`, but it also shows you the (normally implicit) file offset being read at.
 
 ```bash
 $ strace -f -e trace=file,read -o strace.out sed 's/test/foo/g' trace_reads.bash
@@ -20,13 +21,16 @@ Tracing kprobe vfs_read. Ctrl-C to end.
              sed-757   [008] d... 80128.962511: vfs_read: (vfs_read+0x0/0x140) ...
                   inum=0x760f7e size_requested=0x1000 **offset=0x7aa**
 ```
-plot_reads.py: takes trace_reads.bash output and plots the reads:
+# plot_reads.py: 
+  takes trace_reads.bash output and plots the reads:
+  
 usage:
 `sudo ./trace_reads.bash /my/file > test.tmp`
-and meanwhile:
-`python test_reads.py /my/file # test_reads.py available in repo` 
 
-later:
+meanwhile, a process accesses the file:
+`python test_reads.py /my/file 
+
+we can use plot_reads.py to plot the collected traces:
 ```
 $ ./plot_reads.py test.tmp 
 skipped lines: 4
