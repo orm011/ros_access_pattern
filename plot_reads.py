@@ -17,7 +17,7 @@ FsReadOp = namedtuple('FsReadOp', 'cmdpid timestamp size_requested offset')
 # cat-3967  [007] d... 81183.379489: vfs_read: (vfs_read+0x0/0x140) inum=0x760f7e size_requested=0x20000 offset=0x7aa
 #
 # Ending tracing...
-def parse_line(line):
+def _parse_line(line):
     parts = [x for x in line.strip().split(' ') if x != '']
     kvs = {'cmdpid':parts[0], 'timestamp':float(parts[3][:-1])}
     for p in parts[4:]:
@@ -28,7 +28,7 @@ def parse_line(line):
 
     return FsReadOp(**kvs)
 
-def show_access_pattern(f, note):
+def _loop(f, note):
     initial_timestamp = None
     counter=0
 
@@ -43,7 +43,7 @@ def show_access_pattern(f, note):
     bad_count = 0
     for l in f:
         try:
-            rop = parse_line(l)
+            rop = _parse_line(l)
         except:
             bad_count += 1
             continue
@@ -72,6 +72,13 @@ def show_access_pattern(f, note):
     ax.set_xlabel("time elapsed (s)")
     return (fig,ax)
 
+
+def plot_reads(filename):
+    f = open(filename,'r')
+    (fig, ax) = _loop(f, filename)
+    fig.show()
+    return (fig,ax)
+        
 if __name__ == '__main__':
     if len(sys.argv) == 1:
         f = sys.stdin
@@ -81,5 +88,5 @@ if __name__ == '__main__':
         nm = sys.argv[1]
     
     # skip first two non-data lines.
-    (fig, ax) = show_access_pattern(f,nm)
+    (fig, ax) = _loop(f,nm)
     pl.savefig('%s.access_pattern.png' % nm)
