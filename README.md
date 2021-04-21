@@ -1,5 +1,5 @@
 # tools
-assorted tools/useful snippets
+trace io reads to see access patterns (in file offset space)
 
 # trace_reads.bash: 
   like `strace -e trace=read`, but it also shows you the (normally implicit) file offset being read at.
